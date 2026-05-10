@@ -1,6 +1,6 @@
 # Nirmay: Rural Health Report Simplifier 🌿
 
-**Live Demo**: [https://nirmay.streamlit.app/](https://nirmay.streamlit.app/)
+**Live Link**: [https://nirmay.streamlit.app/](https://nirmay.streamlit.app/)
 
 ## Detailed Project Description
 **Nirmay** is a compassionate, AI-powered Medical Interpreter specifically designed to bridge the healthcare literacy gap for rural and low-literacy populations. Medical reports (especially blood tests, diagnostic findings, and prescriptions) are frequently laden with dense, alarming jargon that can induce anxiety and confusion for patients without a medical background. 
