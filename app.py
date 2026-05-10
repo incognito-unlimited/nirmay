@@ -36,6 +36,7 @@ UI_TEXT = {
         "read_error": "We couldn't read any text from this file. Please try a clearer document.",
         "success": "Report successfully processed!",
         "ask_question": "Ask a question in English...",
+        "voice_input": "🗣️ Voice Input",
         "transcribing": "Transcribing audio...",
         "audio_error": "Audio recording requires the Groq Cloud API key to be active.",
         "typing": "Nirmay is typing in English..."
@@ -51,6 +52,7 @@ UI_TEXT = {
         "read_error": "हम इस फ़ाइल से कोई पाठ नहीं पढ़ सके। कृपया अधिक स्पष्ट दस्तावेज़ आज़माएं।",
         "success": "रिपोर्ट सफलतापूर्वक संसाधित हो गई!",
         "ask_question": "हिंदी में कोई प्रश्न पूछें...",
+        "voice_input": "🗣️ वॉयस इनपुट",
         "transcribing": "ऑडियो ट्रांसक्राइब किया जा रहा है...",
         "audio_error": "ऑडियो रिकॉर्डिंग के लिए Groq Cloud API कुंजी सक्रिय होनी चाहिए।",
         "typing": "निर्मय हिंदी में टाइप कर रहा है..."
@@ -66,6 +68,7 @@ UI_TEXT = {
         "read_error": "இந்தக் கோப்பிலிருந்து எங்களால் எந்த உரையையும் படிக்க முடியவில்லை. தெளிவான ஆவணத்தை முயற்சிக்கவும்.",
         "success": "அறிக்கை வெற்றிகரமாகச் செயலாக்கப்பட்டது!",
         "ask_question": "தமிழில் ஒரு கேள்வி கேளுங்கள்...",
+        "voice_input": "🗣️ குரல் உள்ளீடு",
         "transcribing": "ஆடியோ டிரான்ஸ்கிரைப் செய்யப்படுகிறது...",
         "audio_error": "ஆடியோ பதிவுக்கு Groq கிளவுட் API விசை செயலில் இருக்க வேண்டும்.",
         "typing": "நிர்மெய் தமிழில் தட்டச்சு செய்கிறார்..."
@@ -81,6 +84,7 @@ UI_TEXT = {
         "read_error": "మేము ఈ ఫైల్ నుండి ఏ వచానాన్ని చదవలేకపోయాము. దయచేసి స్పష్టమైన పత్రాన్ని ప్రయత్నించండి.",
         "success": "నివేదిక విజయవంతంగా ప్రాసెస్ చేయబడింది!",
         "ask_question": "తెలుగులో ఒక ప్రశ్న అడగండి...",
+        "voice_input": "🗣️ వాయిస్ ఇన్‌పుట్",
         "transcribing": "ఆడియో ట్రాన్స్‌క్రైబ్ చేయబడుతోంది...",
         "audio_error": "ఆడియో రికార్డింగ్‌కు Groq క్లౌడ్ API కీ చురుకుగా ఉండాలి.",
         "typing": "నిర్మయ్ తెలుగులో టైప్ చేస్తున్నారు..."
@@ -96,6 +100,7 @@ UI_TEXT = {
         "read_error": "আমরা এই ফাইল থেকে কোনো লেখা পড়তে পারিনি। অনুগ্রহ করে একটি পরিষ্কার নথি চেষ্টা করুন।",
         "success": "প্রতিবেদন সফলভাবে প্রক্রিয়া করা হয়েছে!",
         "ask_question": "বাংলায় একটি প্রশ্ন জিজ্ঞাসা করুন...",
+        "voice_input": "🗣️ ভয়েস ইনপুট",
         "transcribing": "অডিও প্রতিলিপি করা হচ্ছে...",
         "audio_error": "অডিও রেকর্ডিংয়ের জন্য গ্রোক ক্লাউড এপিআই কী সক্রিয় থাকতে হবে।",
         "typing": "নির্মেয় বাংলায় টাইপ করছে..."
@@ -241,8 +246,13 @@ def main():
         st.session_state.current_ui = current_ui
         
         st.divider()
+        st.header(current_ui["voice_input"])
+        audio_input = audio_recorder(text="🎙️", recording_color="#cc0000", neutral_color="#0066cc", icon_size="2x")
+        
+        st.divider()
         # Reset conversation
         if st.button(current_ui["reset_session"]) and st.session_state.get('report_processed', False):
+
             st.session_state.messages = [{"role": "system", "content": get_system_prompt(selected_lang)}]
             st.session_state.report_processed = False
             st.rerun()
@@ -301,12 +311,8 @@ def main():
                 if message["role"] == "assistant" and message.get("audio"):
                     st.audio(message["audio"], format="audio/mp3")
 
-        # Accept follow-up user input via text or voice
-        col1, col2 = st.columns([1, 6])
-        with col1:
-            audio_input = audio_recorder(text="🎙️", recording_color="#cc0000", neutral_color="#0066cc", icon_size="2x")
-        with col2:
-            text_prompt = st.chat_input(current_ui["ask_question"])
+        # Accept follow-up user input via text
+        text_prompt = st.chat_input(current_ui["ask_question"])
             
         final_prompt = None
         
