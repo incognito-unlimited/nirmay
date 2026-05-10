@@ -1,5 +1,8 @@
 # Nirmay: Rural Health Report Simplifier 🌿
 
+Team Number: 11
+Member Name: Aditey Mehra
+
 **Live Link**: [https://nirmay.streamlit.app/](https://nirmay.streamlit.app/)
 
 ## Detailed Project Description
