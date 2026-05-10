@@ -24,6 +24,85 @@ LANG_MAP = {
     "Bengali": "bn"
 }
 
+UI_TEXT = {
+    "English": {
+        "title": "🌿 Nirmay: Rural Health Report Simplifier",
+        "description": "Upload your medical report and let Nirmay help you understand it simply and gently.",
+        "lang_settings": "🌐 Language Settings",
+        "select_lang": "Select your language / अपनी भाषा चुनें:",
+        "reset_session": "Reset Session",
+        "upload_report": "Upload your Medical Report (PDF)",
+        "reading": "Reading & simplifying your report... Please wait.",
+        "read_error": "We couldn't read any text from this file. Please try a clearer document.",
+        "success": "Report successfully processed!",
+        "ask_question": "Ask a question in English...",
+        "transcribing": "Transcribing audio...",
+        "audio_error": "Audio recording requires the Groq Cloud API key to be active.",
+        "typing": "Nirmay is typing in English..."
+    },
+    "Hindi": {
+        "title": "🌿 निर्मय: ग्रामीण स्वास्थ्य रिपोर्ट सरलीकृत",
+        "description": "अपनी मेडिकल रिपोर्ट अपलोड करें और निर्मय को इसे सरलता और सौम्यता से समझने में आपकी मदद करने दें।",
+        "lang_settings": "🌐 भाषा सेटिंग्स",
+        "select_lang": "Select your language / अपनी भाषा चुनें:",
+        "reset_session": "सत्र रीसेट करें",
+        "upload_report": "अपनी मेडिकल रिपोर्ट (PDF) अपलोड करें",
+        "reading": "आपकी रिपोर्ट पढ़ी और सरल की जा रही है... कृपया प्रतीक्षा करें।",
+        "read_error": "हम इस फ़ाइल से कोई पाठ नहीं पढ़ सके। कृपया अधिक स्पष्ट दस्तावेज़ आज़माएं।",
+        "success": "रिपोर्ट सफलतापूर्वक संसाधित हो गई!",
+        "ask_question": "हिंदी में कोई प्रश्न पूछें...",
+        "transcribing": "ऑडियो ट्रांसक्राइब किया जा रहा है...",
+        "audio_error": "ऑडियो रिकॉर्डिंग के लिए Groq Cloud API कुंजी सक्रिय होनी चाहिए।",
+        "typing": "निर्मय हिंदी में टाइप कर रहा है..."
+    },
+    "Tamil": {
+        "title": "🌿 நிர்மெய்: கிராமப்புற சுகாதார அறிக்கை எளிமைப்படுத்தி",
+        "description": "உங்கள் மருத்துவ அறிக்கையைப் பதிவேற்றவும், அதை எளிமையாகவும் மென்மையாகவும் புரிந்துகொள்ள நிர்மெய் உங்களுக்கு உதவட்டும்.",
+        "lang_settings": "🌐 மொழி அமைப்புகள்",
+        "select_lang": "Select your language / अपनी भाषा चुनें:",
+        "reset_session": "அமர்வை மீட்டமை",
+        "upload_report": "உங்கள் மருத்துவ அறிக்கையை பதிவேற்றவும் (PDF)",
+        "reading": "உங்கள் அறிக்கையைப் படித்து எளிமையாக்குகிறது... தயவுசெய்து காத்திருக்கவும்.",
+        "read_error": "இந்தக் கோப்பிலிருந்து எங்களால் எந்த உரையையும் படிக்க முடியவில்லை. தெளிவான ஆவணத்தை முயற்சிக்கவும்.",
+        "success": "அறிக்கை வெற்றிகரமாகச் செயலாக்கப்பட்டது!",
+        "ask_question": "தமிழில் ஒரு கேள்வி கேளுங்கள்...",
+        "transcribing": "ஆடியோ டிரான்ஸ்கிரைப் செய்யப்படுகிறது...",
+        "audio_error": "ஆடியோ பதிவுக்கு Groq கிளவுட் API விசை செயலில் இருக்க வேண்டும்.",
+        "typing": "நிர்மெய் தமிழில் தட்டச்சு செய்கிறார்..."
+    },
+    "Telugu": {
+        "title": "🌿 నిర్మయ్: గ్రామీణ ఆరోగ్య నివేదిక సరళీకృత",
+        "description": "మీ వైద్య నివేదికను అప్‌లోడ్ చేయండి మరియు దాన్ని సరళంగా మరియు సున్నితంగా అర్థం చేసుకోవడంలో నిర్మయ్ మీకు సహాయం చేయనివ్వండి.",
+        "lang_settings": "🌐 భాష సెట్టింగులు",
+        "select_lang": "Select your language / अपनी भाषा चुनें:",
+        "reset_session": "సెషన్‌ను రీసెట్ చేయండి",
+        "upload_report": "మీ వైద్య నివేదికను అప్‌లోడ్ చేయండి (PDF)",
+        "reading": "మీ నివేదికను చదువుతోంది మరియు సరళీకృతం చేస్తోంది... దయచేసి వేచి ఉండండి.",
+        "read_error": "మేము ఈ ఫైల్ నుండి ఏ వచానాన్ని చదవలేకపోయాము. దయచేసి స్పష్టమైన పత్రాన్ని ప్రయత్నించండి.",
+        "success": "నివేదిక విజయవంతంగా ప్రాసెస్ చేయబడింది!",
+        "ask_question": "తెలుగులో ఒక ప్రశ్న అడగండి...",
+        "transcribing": "ఆడియో ట్రాన్స్‌క్రైబ్ చేయబడుతోంది...",
+        "audio_error": "ఆడియో రికార్డింగ్‌కు Groq క్లౌడ్ API కీ చురుకుగా ఉండాలి.",
+        "typing": "నిర్మయ్ తెలుగులో టైప్ చేస్తున్నారు..."
+    },
+    "Bengali": {
+        "title": "🌿 নির্মেয়: গ্রামীণ স্বাস্থ্য প্রতিবেদন সরলীকৃত",
+        "description": "আপনার মেডিকেল রিপোর্ট আপলোড করুন এবং নির্মেয় আপনাকে এটি সহজ ও নম্রভাবে বুঝতে সাহায্য করুক।",
+        "lang_settings": "🌐 ভাষা সেটিংস",
+        "select_lang": "Select your language / अपनी भाषा चुनें:",
+        "reset_session": "সেশন রিসেট করুন",
+        "upload_report": "আপনার মেডিকেল রিপোর্ট আপলোড করুন (PDF)",
+        "reading": "আপনার প্রতিবেদন পড়া এবং সহজ করা হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন।",
+        "read_error": "আমরা এই ফাইল থেকে কোনো লেখা পড়তে পারিনি। অনুগ্রহ করে একটি পরিষ্কার নথি চেষ্টা করুন।",
+        "success": "প্রতিবেদন সফলভাবে প্রক্রিয়া করা হয়েছে!",
+        "ask_question": "বাংলায় একটি প্রশ্ন জিজ্ঞাসা করুন...",
+        "transcribing": "অডিও প্রতিলিপি করা হচ্ছে...",
+        "audio_error": "অডিও রেকর্ডিংয়ের জন্য গ্রোক ক্লাউড এপিআই কী সক্রিয় থাকতে হবে।",
+        "typing": "নির্মেয় বাংলায় টাইপ করছে..."
+    }
+}
+
+
 # --- System Prompt Definition ---
 def get_system_prompt(language="English"):
     return f"""
@@ -81,14 +160,16 @@ def query_llm(messages, groq_api_key):
     """
     Hybrid LLM querying workflow: Try local Ollama first, fallback to Groq.
     """
+    # Clean messages (Remove raw bytes like TTS audio before sending to JSON-based LLM APIs)
+    clean_messages = [{"role": m["role"], "content": m["content"]} for m in messages]
+
     # Attempt Primary Engine: Local Ollama (llama3.1:8b)
     try:
         response = requests.post(
             "http://127.0.0.1:11434/api/chat",
             json={
                 "model": "llama3.1:8b",
-
-                "messages": messages,
+                "messages": clean_messages,
                 "stream": False
             },
             timeout=5 # Short timeout for local check
@@ -108,7 +189,7 @@ def query_llm(messages, groq_api_key):
             client = Groq(api_key=groq_api_key)
             completion = client.chat.completions.create(
                 model="llama-3.1-8b-instant",
-                messages=messages,
+                messages=clean_messages,
                 temperature=0.3,
                 max_tokens=2048,
             )
@@ -132,8 +213,11 @@ def generate_tts(text, lang_code):
 # --- Main App Logic ---
 
 def main():
-    st.title("🌿 Nirmay: Rural Health Report Simplifier")
-    st.markdown("Upload your medical report and let Nirmay help you understand it simply and gently.")
+    # Set default language temporarily until sidebar renders
+    current_ui = st.session_state.get('current_ui', UI_TEXT["English"])
+    
+    st.title(current_ui["title"])
+    st.markdown(current_ui["description"])
     
     # --- Sidebar Styling & Configurations ---
     # Read the API key securely from environment variable
@@ -147,16 +231,18 @@ def main():
             groq_key = ""
 
     with st.sidebar:
-        st.header("🌐 Language Settings")
+        st.header(current_ui["lang_settings"])
         selected_lang = st.selectbox(
-            "Select your language / अपनी भाषा चुनें:", 
+            current_ui["select_lang"], 
             options=list(LANG_MAP.keys()), 
-            index=0
+            index=list(LANG_MAP.keys()).index(st.session_state.get('current_lang', "English"))
         )
+        current_ui = UI_TEXT[selected_lang]
+        st.session_state.current_ui = current_ui
         
         st.divider()
         # Reset conversation
-        if st.button("Reset Session") and st.session_state.get('report_processed', False):
+        if st.button(current_ui["reset_session"]) and st.session_state.get('report_processed', False):
             st.session_state.messages = [{"role": "system", "content": get_system_prompt(selected_lang)}]
             st.session_state.report_processed = False
             st.rerun()
@@ -164,6 +250,7 @@ def main():
     # Initialize session state variables
     if "current_lang" not in st.session_state or st.session_state.current_lang != selected_lang:
         st.session_state.current_lang = selected_lang
+        st.session_state.current_ui = current_ui
         # If language changes, update the system prompt but keep conversation if active?
         # Better to reset conversation if language fundamentally changes, or just let future messages translate.
         if "messages" not in st.session_state or not st.session_state.get("report_processed", False):
@@ -171,22 +258,21 @@ def main():
         else:
             # Update the very first message silently so instructions update for follow-ups
             st.session_state.messages[0] = {"role": "system", "content": get_system_prompt(selected_lang)}
+        st.rerun()
 
     if "report_processed" not in st.session_state:
         st.session_state.report_processed = False
-    if "engine_status" not in st.session_state:
-        st.session_state.engine_status = "Checking availability..."
 
     # --- File Upload Section ---
     if not st.session_state.report_processed:
-        uploaded_file = st.file_uploader("Upload your Medical Report (PDF)", type=["pdf"])
+        uploaded_file = st.file_uploader(current_ui["upload_report"], type=["pdf"])
         
         if uploaded_file is not None:
-            with st.spinner("Reading & simplifying your report... Please wait."):
+            with st.spinner(current_ui["reading"]):
                 report_text = extract_text_from_pdf(uploaded_file)
                 
                 if not report_text:
-                    st.error("We couldn't read any text from this file. Please try a clearer document.")
+                    st.error(current_ui["read_error"])
                     return
                 
                 # Create initial prompt merging text and system instructions
@@ -206,7 +292,7 @@ def main():
 
     # --- Interactive Chat Interface ---
     if st.session_state.report_processed:
-        st.success("Report successfully processed!")
+        st.success(current_ui["success"])
         
         # Display chat history (skipping the underlying system prompt and initial raw injection)
         for message in st.session_state.messages[2:]: # Skip system prompt and the raw OCR insertion
@@ -220,13 +306,13 @@ def main():
         with col1:
             audio_input = audio_recorder(text="🎙️", recording_color="#cc0000", neutral_color="#0066cc", icon_size="2x")
         with col2:
-            text_prompt = st.chat_input(f"Ask a question in {selected_lang}...")
+            text_prompt = st.chat_input(current_ui["ask_question"])
             
         final_prompt = None
         
         # Voice transcription via Groq Whisper Fallback (Requires Groq Key)
         if audio_input and groq_key:
-            with st.spinner("Transcribing audio..."):
+            with st.spinner(current_ui["transcribing"]):
                 client = Groq(api_key=groq_key)
                 try:
                     transcription = client.audio.transcriptions.create(
@@ -237,7 +323,7 @@ def main():
                 except Exception as e:
                     st.error(f"Speech recognition failed: {str(e)}")
         elif audio_input and not groq_key:
-            st.error("Audio recording requires the Groq Cloud API key to be active.")
+            st.error(current_ui["audio_error"])
 
         if text_prompt:
             final_prompt = text_prompt
@@ -249,7 +335,7 @@ def main():
                 st.markdown(final_prompt)
                 
             with st.chat_message("assistant"):
-                with st.spinner(f"Nirmay is typing in {selected_lang}..."):
+                with st.spinner(current_ui["typing"]):
                     response = query_llm(st.session_state.messages, groq_key)
                     st.markdown(response)
                     
