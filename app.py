@@ -177,10 +177,6 @@ def main():
     if "engine_status" not in st.session_state:
         st.session_state.engine_status = "Checking availability..."
 
-
-            st.session_state.report_processed = False
-            st.rerun()
-
     # --- File Upload Section ---
     if not st.session_state.report_processed:
         uploaded_file = st.file_uploader("Upload your Medical Report (PDF)", type=["pdf"])
