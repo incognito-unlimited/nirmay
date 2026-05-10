@@ -121,33 +121,23 @@ def main():
         st.session_state.engine_status = "Checking availability..."
         
     # --- Sidebar Styling & Configurations ---
+    # Read the API key securely from environment variable
+    groq_key = os.getenv("GROQ_API_KEY")
+    if not groq_key:
+        try:
+            from dotenv import dotenv_values
+            env_vals = dotenv_values(".env")
+            groq_key = env_vals.get("GROQ_API_KEY", "")
+        except Exception:
+            groq_key = ""
+
     with st.sidebar:
-        st.header("⚙️ Configuration")
-        # Groq API fallback section
-        # Read the API key securely from environment variable
-        # Note: Streamlit Cloud automatically injects secrets into environment variables,
-        # so os.getenv works perfectly for both local .env files and Cloud Secrets!
-        groq_key = os.getenv("GROQ_API_KEY")
-        if not groq_key:
-            try:
-                from dotenv import dotenv_values
-                env_vals = dotenv_values(".env")
-                groq_key = env_vals.get("GROQ_API_KEY", "")
-            except Exception:
-                groq_key = ""
-
-
-
-
-        
-        st.divider()
-        st.header("🔌 Engine Status")
-        # We display the current engine status tracked in session state
-        st.info(f"Currently active: **{st.session_state.engine_status}**")
-        
         # Reset conversation
         if st.button("Reset Session") and st.session_state.report_processed:
             st.session_state.messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+            st.session_state.report_processed = False
+            st.rerun()
+
             st.session_state.report_processed = False
             st.rerun()
 

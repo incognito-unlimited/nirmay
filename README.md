@@ -1,22 +1,19 @@
 # Nirmay: Rural Health Report Simplifier 🌿
 
-An AI-powered Medical Interpreter designed to help rural and low-literacy populations understand their medical reports.
+**Live Demo**: [https://nirmay.streamlit.app/](https://nirmay.streamlit.app/)
+
+## Detailed Project Description
+**Nirmay** is a compassionate, AI-powered Medical Interpreter specifically designed to bridge the healthcare literacy gap for rural and low-literacy populations. Medical reports (especially blood tests, diagnostic findings, and prescriptions) are frequently laden with dense, alarming jargon that can induce anxiety and confusion for patients without a medical background. 
+
+Nirmay solves this by running state-of-the-art Optical Character Recognition (OCR) to extract unstructured text from uploaded health report PDFs (handling both digital and scanned documents) and translating it into plain, reassuring, and jargon-free language. 
+
+The core application provides:
+1. **Simplified Summary:** A short, gentle overview of what the document represents.
+2. **Key Metrics Decoding:** Careful identification and plain-language explanation of any flagged metrics without providing direct medical diagnoses.
+3. **Actionable Next Steps:** Three tailored, specific questions the patient should ask their human doctor at the next visit.
+4. **Conversational Follow-ups:** A chat interface where patients can ask targeted questions based directly on the provided context of their report.
 
 ## Features
-* **Hybrid AI Engine**: Secure, privacy-first local processing via Ollama (`llama3.1:8b`) with automatic fallback to Groq's high-speed cloud endpoint.
+* **Hybrid AI Engine**: Secure, privacy-first local processing via Ollama (`llama3.1:8b`) with automatic fallback to Groq's high-speed cloud endpoint (`llama-3.1-8b-instant`).
 * **Hybrid OCR Fallback**: Automatically tries to extract digital text using `PyPDF2`, and gracefully falls back to `pytesseract` OCR + `pdf2image` for scanned image PDFs.
 * **Streamlit UI**: Simple, intuitive dialogue UI equipped with chat capabilities for follow-up questions.
-
-## Deployment Next Steps
-
-### 1. Streamlit Community Cloud (Recommended Cloud Setup)
-1. Push this project to a GitHub repository.
-2. Sign in to [Streamlit Community Cloud](https://share.streamlit.io).
-3. Click **"New App"** and select your GitHub repository, setting the entry point to `app.py`.
-4. In the app's "Advanced Settings", add your `GROQ_API_KEY` to the **Secrets** section.
-5. **Critical**: You must create a `packages.txt` file in your repository containing the Linux packages needed for OCR:
-   ```text
-   poppler-utils
-   tesseract-ocr
-   ```
-   *Note*: In the cloud sandbox, the Ollama process isn't running on `localhost`. Setting up the API keys ensures your Groq Cloud fallback kicks in automatically!
