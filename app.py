@@ -318,16 +318,20 @@ def main():
         
         # Voice transcription via Groq Whisper Fallback (Requires Groq Key)
         if audio_input and groq_key:
-            with st.spinner(current_ui["transcribing"]):
-                client = Groq(api_key=groq_key)
-                try:
-                    transcription = client.audio.transcriptions.create(
-                      file=("audio.wav", audio_input),
-                      model="whisper-large-v3",
-                    )
-                    final_prompt = transcription.text
-                except Exception as e:
-                    st.error(f"Speech recognition failed: {str(e)}")
+            # Prevent re-processing the same audio segment during Streamlit re-runs
+            if "last_audio" not in st.session_state or st.session_state.last_audio != audio_input:
+                st.session_state.last_audio = audio_input
+                with st.spinner(current_ui["transcribing"]):
+                    client = Groq(api_key=groq_key)
+                    try:
+                        transcription = client.audio.transcriptions.create(
+                          file=("audio.wav", audio_input),
+                          model="whisper-large-v3",
+                          language=LANG_MAP[selected_lang] # Force language to prevent hallucinations
+                        )
+                        final_prompt = transcription.text
+                    except Exception as e:
+                        st.error(f"Speech recognition failed: {str(e)}")
         elif audio_input and not groq_key:
             st.error(current_ui["audio_error"])
 
