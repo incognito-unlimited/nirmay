@@ -6,3 +6,5 @@ requests
 groq
 python-dotenv
 Pillow
+gTTS
+audio-recorder-streamlit

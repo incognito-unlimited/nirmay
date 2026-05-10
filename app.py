@@ -7,6 +7,8 @@ from pdf2image import convert_from_bytes
 import pytesseract
 from groq import Groq
 from dotenv import load_dotenv
+from gtts import gTTS
+from audio_recorder_streamlit import audio_recorder
 
 # Load environment variables
 load_dotenv(override=True)
@@ -14,9 +16,20 @@ load_dotenv(override=True)
 # Set up Streamlit page configuration
 st.set_page_config(page_title="Nirmay: Rural Health Report Simplifier", page_icon="🌿", layout="wide")
 
+LANG_MAP = {
+    "English": "en",
+    "Hindi": "hi",
+    "Tamil": "ta",
+    "Telugu": "te",
+    "Bengali": "bn"
+}
+
 # --- System Prompt Definition ---
-SYSTEM_PROMPT = """
+def get_system_prompt(language="English"):
+    return f"""
 You are 'Nirmay', a compassionate and highly knowledgeable Medical Interpreter designed to help rural and low-literacy populations understand their medical reports. 
+
+CRITICAL RULE: You MUST communicate entirely in {language}. All your responses, summaries, and answers must be translated fluently to {language}.
 
 You will be provided with raw text extracted via OCR from a user's medical document (e.g., blood test, prescription, or diagnostic report). 
 
@@ -106,20 +119,22 @@ def query_llm(messages, groq_api_key):
         except Exception as groq_error:
             return f"Error: Failed to reach both local Ollama and Groq fallback. Details: {str(groq_error)}"
 
+def generate_tts(text, lang_code):
+    """Generates Text-to-Speech audio bytes."""
+    try:
+        tts = gTTS(text=text, lang=lang_code, slow=False)
+        fp = io.BytesIO()
+        tts.write_to_fp(fp)
+        return fp.getvalue()
+    except Exception:
+        return None
+
 # --- Main App Logic ---
 
 def main():
     st.title("🌿 Nirmay: Rural Health Report Simplifier")
     st.markdown("Upload your medical report and let Nirmay help you understand it simply and gently.")
     
-    # Initialize session state variables
-    if "messages" not in st.session_state:
-        st.session_state.messages = [{"role": "system", "content": SYSTEM_PROMPT}]
-    if "report_processed" not in st.session_state:
-        st.session_state.report_processed = False
-    if "engine_status" not in st.session_state:
-        st.session_state.engine_status = "Checking availability..."
-        
     # --- Sidebar Styling & Configurations ---
     # Read the API key securely from environment variable
     groq_key = os.getenv("GROQ_API_KEY")
@@ -132,11 +147,36 @@ def main():
             groq_key = ""
 
     with st.sidebar:
+        st.header("🌐 Language Settings")
+        selected_lang = st.selectbox(
+            "Select your language / अपनी भाषा चुनें:", 
+            options=list(LANG_MAP.keys()), 
+            index=0
+        )
+        
+        st.divider()
         # Reset conversation
-        if st.button("Reset Session") and st.session_state.report_processed:
-            st.session_state.messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+        if st.button("Reset Session") and st.session_state.get('report_processed', False):
+            st.session_state.messages = [{"role": "system", "content": get_system_prompt(selected_lang)}]
             st.session_state.report_processed = False
             st.rerun()
+
+    # Initialize session state variables
+    if "current_lang" not in st.session_state or st.session_state.current_lang != selected_lang:
+        st.session_state.current_lang = selected_lang
+        # If language changes, update the system prompt but keep conversation if active?
+        # Better to reset conversation if language fundamentally changes, or just let future messages translate.
+        if "messages" not in st.session_state or not st.session_state.get("report_processed", False):
+            st.session_state.messages = [{"role": "system", "content": get_system_prompt(selected_lang)}]
+        else:
+            # Update the very first message silently so instructions update for follow-ups
+            st.session_state.messages[0] = {"role": "system", "content": get_system_prompt(selected_lang)}
+
+    if "report_processed" not in st.session_state:
+        st.session_state.report_processed = False
+    if "engine_status" not in st.session_state:
+        st.session_state.engine_status = "Checking availability..."
+
 
             st.session_state.report_processed = False
             st.rerun()
@@ -161,7 +201,10 @@ def main():
                 # Process the LLM query
                 assistant_response = query_llm(st.session_state.messages, groq_key)
                 
-                st.session_state.messages.append({"role": "assistant", "content": assistant_response})
+                # Generate TTS for initial summary
+                audio_bytes = generate_tts(assistant_response, LANG_MAP[selected_lang])
+                
+                st.session_state.messages.append({"role": "assistant", "content": assistant_response, "audio": audio_bytes})
                 st.session_state.report_processed = True
                 st.rerun()
 
@@ -173,20 +216,52 @@ def main():
         for message in st.session_state.messages[2:]: # Skip system prompt and the raw OCR insertion
             with st.chat_message(message["role"]):
                 st.markdown(message["content"])
+                if message["role"] == "assistant" and message.get("audio"):
+                    st.audio(message["audio"], format="audio/mp3")
 
-        # Accept follow-up user input
-        if prompt := st.chat_input("Ask a follow-up question about your report..."):
-            st.session_state.messages.append({"role": "user", "content": prompt})
+        # Accept follow-up user input via text or voice
+        col1, col2 = st.columns([1, 6])
+        with col1:
+            audio_input = audio_recorder(text="🎙️", recording_color="#cc0000", neutral_color="#0066cc", icon_size="2x")
+        with col2:
+            text_prompt = st.chat_input(f"Ask a question in {selected_lang}...")
+            
+        final_prompt = None
+        
+        # Voice transcription via Groq Whisper Fallback (Requires Groq Key)
+        if audio_input and groq_key:
+            with st.spinner("Transcribing audio..."):
+                client = Groq(api_key=groq_key)
+                try:
+                    transcription = client.audio.transcriptions.create(
+                      file=("audio.wav", audio_input),
+                      model="whisper-large-v3",
+                    )
+                    final_prompt = transcription.text
+                except Exception as e:
+                    st.error(f"Speech recognition failed: {str(e)}")
+        elif audio_input and not groq_key:
+            st.error("Audio recording requires the Groq Cloud API key to be active.")
+
+        if text_prompt:
+            final_prompt = text_prompt
+
+        if final_prompt:
+            st.session_state.messages.append({"role": "user", "content": final_prompt})
             
             with st.chat_message("user"):
-                st.markdown(prompt)
+                st.markdown(final_prompt)
                 
             with st.chat_message("assistant"):
-                with st.spinner("Nirmay is thinking..."):
+                with st.spinner(f"Nirmay is typing in {selected_lang}..."):
                     response = query_llm(st.session_state.messages, groq_key)
                     st.markdown(response)
                     
-            st.session_state.messages.append({"role": "assistant", "content": response})
+                    audio_bytes = generate_tts(response, LANG_MAP[selected_lang])
+                    if audio_bytes:
+                        st.audio(audio_bytes, format="audio/mp3")
+                        
+            st.session_state.messages.append({"role": "assistant", "content": response, "audio": audio_bytes})
 
 if __name__ == "__main__":
     main()
